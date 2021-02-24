@@ -6,4 +6,4 @@ for (const filename of filenames) {
   file.close();
 }
 
-// deno run --allow-read 05.readFile.ts ../README.md
+// deno run --allow-read 05.cat.ts ../README.md

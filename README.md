@@ -6,10 +6,13 @@
 4. 它的异步操作不使用 libuv 这个库，而是使用 Rust 语言的 Tokio 库，来实现事件循环（event loop）
 
 ## 权限
---allow-read：打开读权限，可以指定可读的目录，比如--allow-read=/temp。
---allow-write：打开写权限。
---allow-net=google.com：允许网络通信，可以指定可请求的域，比如--allow-net=google.com。
---allow-env：允许读取环境变量。
+--allow-env ：允许访问环境变量；
+--allow-net=google.com ：允许网络访问, 可以指定可请求的域，比如--allow-net=google.com；
+--allow-read=<allow-read> ：允许文件系统读取权限；
+--allow-write=<allow-write> ：允许文件系统写入访问, 您可以指定一系列用逗号分隔的目录或文件，来提供文件系统白名单；
+--allow-run ：允许运行子进程, 允许运行子进程。请注意，子进程不在沙箱中运行，因此没有与 deno 进程相同的安全限制，请谨慎使用
+--allow-plugin ：允许加载插件；
+--allow-all ：允许所有权限(与-A相同)。
 
 ## 引用
 1. https://juejin.cn/post/6854573220432248839
@@ -26,6 +29,7 @@ deno --version
 deno upgrade
 # deno upgrade --version 1.0.1
 deno run https://deno.land/std/examples/welcome.ts
+deno info
 deno > Deno
 ```
 
@@ -57,14 +61,25 @@ deno > Deno
 7. 异步操作
     node - callback / koa-async await
     deno - 默认 promise `const data = await Deno.readFile("./data.txt");`
+         - 使用 await 关键字而不需要将其封装到异步函数中, Deno 在其内部实现了顶层的 await 支持
 8. 打包格式化
     node - webpack gulp babel eslint
     deno - 原生支持
          - deno -h
          - deno lint
          - deno bundle ./src/index.ts ./dist/index.js (自带 tree sharking)
-         - deno fmt
+         - deno fmt app.ts (内置 Prettier 工具相关库)
 9. 安全
     node - 无安全限制
+         - 没有什么可以阻止 Node.js 程序获取你系统上的 SSH 密钥或其他任何东西
     deno - 默认安全
          - `deno run -A xxx` 解除默认安全限制
+
+
+## 问题
+1. 版本管理 ??
+2. 事件循环 ??
+3. 如果写了 allow-read 还安全吗? 
+    可以指定文件读写, 白名单机制
+4. Rust 相对 c++ 带来了什么好处 ??
+    - WebAssembly
